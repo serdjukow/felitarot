@@ -21,10 +21,24 @@ body {
 }
 body {
     margin: 0;
-    background: radial-gradient(1200px 800px at 80% -10%, rgba(140, 108, 247, 0.2), transparent 60%), radial-gradient(900px 600px at -10% 20%, rgba(176, 124, 255, 0.18), transparent 60%), var(--bg);
+    background: radial-gradient(1200px 800px at 80% -10%, rgba(140, 108, 247, 0.25), transparent 60%), radial-gradient(900px 600px at -10% 20%, rgba(176, 124, 255, 0.2), transparent 60%), radial-gradient(600px 400px at 50% 100%, rgba(56, 211, 159, 0.1), transparent 70%), linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 100%);
     color: var(--text);
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     line-height: 1.55;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(140, 108, 247, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(176, 124, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 a {
     color: inherit;
@@ -137,11 +151,26 @@ a {
     max-width: 56ch;
 }
 .hero-card {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 22px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 28px;
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(140, 108, 247, 0.1), rgba(176, 124, 255, 0.05));
+    border-radius: var(--radius);
+    z-index: -1;
 }
 .check {
     display: flex;
@@ -164,8 +193,8 @@ a {
 }
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 }
 .card {
     background: var(--card);
@@ -173,10 +202,12 @@ a {
     border-radius: 16px;
     padding: 18px;
     box-shadow: var(--shadow);
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
 }
 .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(140, 108, 247, 0.3);
 }
 .card h3 {
     margin: 0 0 8px;
@@ -184,6 +215,77 @@ a {
 }
 .muted {
     color: var(--muted);
+}
+
+/* SERVICE CARDS */
+.service-card {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.service-image {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image img {
+    transform: scale(1.05);
+}
+
+.service-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--acc), var(--acc-2));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 12px rgba(140, 108, 247, 0.4);
+    transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(140, 108, 247, 0.6);
+}
+
+.service-content {
+    padding: 20px;
+}
+
+.service-content h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--text);
+}
+
+.service-content p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.service-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--acc);
+    background: linear-gradient(135deg, var(--acc), var(--acc-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* PRICING */
@@ -603,6 +705,113 @@ footer {
 
 .mobile-device .plan:hover {
     transform: none;
+}
+
+.mobile-device .service-card:hover .service-image img {
+    transform: none;
+}
+
+.mobile-device .service-card:hover .service-icon {
+    transform: none;
+}
+
+/* АНИМАЦИИ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Анимации для элементов */
+.hero-card {
+    animation: fadeInRight 0.8s ease-out;
+}
+
+.service-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.service-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.service-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.service-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.service-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+.service-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+.service-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.btn-primary {
+    animation: pulse 2s infinite;
+}
+
+/* Улучшения для планшетов */
+@media (max-width: 768px) {
+    .service-image {
+        height: 140px;
+    }
+
+    .service-content {
+        padding: 16px;
+    }
+
+    .service-content h3 {
+        font-size: 16px;
+    }
+
+    .service-content p {
+        font-size: 13px;
+    }
+
+    .service-price {
+        font-size: 14px;
+    }
 }
 
 /* Улучшения для очень маленьких экранов */

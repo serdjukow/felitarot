@@ -200,9 +200,41 @@
                     </span>
                     <h1>Felitarot</h1>
                 </a>
-                <div class="cta-row">
-                    <a class="btn" href="https://instagram.com/felitarot_official" target="_blank" rel="noopener">Instagram</a>
-                    <a class="btn btn-primary" href="https://t.me/felitarot" target="_blank" rel="noopener">Записаться в Telegram</a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-menu">
+                    <a href="#services" class="nav-link">Услуги</a>
+                    <a href="#faq" class="nav-link">FAQ</a>
+                    <a href="#about" class="nav-link">О проекте</a>
+                    <a href="https://t.me/felitarot" class="nav-cta" target="_blank" rel="noopener">Записаться</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-toggle" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu">
+                <div class="mobile-menu-content">
+                    <a href="#services" class="mobile-nav-link">Услуги</a>
+                    <a href="#faq" class="mobile-nav-link">FAQ</a>
+                    <a href="#about" class="mobile-nav-link">О проекте</a>
+                    <div class="mobile-menu-controls">
+                        <button id="theme-toggle-mobile" class="theme-toggle-mobile" aria-label="Переключить тему">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="2" />
+                                <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mobile-menu-social">
+                        <a href="https://t.me/felitarot" class="mobile-nav-cta" target="_blank" rel="noopener">Записаться в Telegram</a>
+                        <a href="https://instagram.com/felitarot_official" class="mobile-nav-social" target="_blank" rel="noopener">Instagram</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -216,8 +248,6 @@
                     <p class="subtitle">Если вы чувствуете, что настало время заглянуть глубже, я буду рядом, чтобы провести вас в этот мир ответов и подсказок.</p>
                     <div style="display: flex; gap: 12px; margin-top: 18px">
                         <a class="btn btn-primary" href="https://t.me/felitarot" target="_blank" rel="noopener">Запись в 1 клик</a>
-                        <a class="btn" href="#services">Услуги</a>
-                        <a class="btn" href="#faq">FAQ</a>
                     </div>
                 </div>
                 <div class="hero-right">
@@ -440,12 +470,48 @@
                         <p class="muted">FeliTarot — это пространство, где карты Таро становятся путеводителями, а не приговорами. Мой проект создан для тех, кто ищет ответы на важные вопросы, хочет ясности в отношениях, делах или внутреннем пути.</p>
                         <p class="muted">Уже более 10 лет я работаю с картами, и для меня Таро — это не просто предсказания. Это разговор с вашей интуицией, способ увидеть то, что скрыто в глубине души, и найти новые решения там, где раньше был тупик.</p>
                     </article>
+
+                    <article class="card">
+                        <h3>Мой подход</h3>
+                        <p class="muted">Каждая консультация — это диалог. Я не даю готовые ответы, а помогаю вам найти их внутри себя. Карты показывают то, что уже есть в вашем подсознании, но пока не осознано.</p>
+                        <p class="muted">Мы работаем с вашими вопросами через призму архетипов и символов Таро, находим новые углы зрения и возможности, которые раньше не замечали.</p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Что вы получите</h3>
+                        <div class="check">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span>Ясность в сложных ситуациях</span>
+                        </div>
+                        <div class="check">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span>Новые перспективы и решения</span>
+                        </div>
+                        <div class="check">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span>Поддержку в принятии решений</span>
+                        </div>
+                        <div class="check">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span>Понимание своих внутренних процессов</span>
+                        </div>
+                    </article>
+
                     <article class="card">
                         <h3>Связь</h3>
                         <p class="muted" id="contact">
                             Telegram: <a href="https://t.me/felitarot" target="_blank" rel="noopener">@felitarot</a><br />
                             Email: <a href="mailto:felitarot.official@gmail.com">felitarot.official@gmail.com</a>
                         </p>
+                        <p class="muted">Готова ответить на ваши вопросы и помочь найти путь к ясности через мудрость Таро.</p>
                     </article>
                 </div>
             </div>

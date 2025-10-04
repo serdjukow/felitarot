@@ -30,16 +30,17 @@ const ThemeManager = {
         const toggleBtn = document.createElement("button")
         toggleBtn.className = "theme-toggle"
         toggleBtn.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
         <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2"/>
       </svg>
-      <span>${AppState.theme === "dark" ? "Light" : "Dark"}</span>
     `
+        toggleBtn.setAttribute("aria-label", AppState.theme === "dark" ? "Переключить на светлую тему" : "Переключить на темную тему")
 
-        const ctaRow = navInner.querySelector(".cta-row")
-        if (ctaRow) {
-            ctaRow.appendChild(toggleBtn)
+        // Добавляем кнопку в навигационное меню
+        const navMenu = navInner.querySelector(".nav-menu")
+        if (navMenu) {
+            navMenu.appendChild(toggleBtn)
         }
     },
 
@@ -62,10 +63,10 @@ const ThemeManager = {
         AppState.theme = newTheme
         localStorage.setItem("felitarot-theme", newTheme)
 
-        // Update button text
-        const toggleBtn = document.querySelector(".theme-toggle span")
+        // Update button aria-label
+        const toggleBtn = document.querySelector(".theme-toggle")
         if (toggleBtn) {
-            toggleBtn.textContent = newTheme === "dark" ? "Light" : "Dark"
+            toggleBtn.setAttribute("aria-label", newTheme === "dark" ? "Переключить на светлую тему" : "Переключить на темную тему")
         }
     },
 
@@ -145,6 +146,8 @@ const Utils = {
         this.updateYear()
         this.setupEmailCopy()
         this.setupSmoothScrolling()
+        this.bindMobileMenu()
+        this.bindActiveNavigation()
     },
 
     updateYear() {
@@ -191,6 +194,99 @@ const Utils = {
                 }
             })
         })
+    },
+
+    bindMobileMenu() {
+        const toggle = document.querySelector(".mobile-menu-toggle")
+        const mobileMenu = document.querySelector(".mobile-menu")
+
+        console.log("Mobile menu elements:", { toggle, mobileMenu })
+
+        if (toggle && mobileMenu) {
+            toggle.addEventListener("click", (e) => {
+                e.preventDefault()
+                console.log("Mobile menu toggle clicked")
+                toggle.classList.toggle("active")
+                mobileMenu.classList.toggle("active")
+            })
+
+            // Закрыть меню при клике на ссылку
+            const mobileLinks = document.querySelectorAll(".mobile-nav-link")
+            mobileLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    toggle.classList.remove("active")
+                    mobileMenu.classList.remove("active")
+                })
+            })
+
+            // Закрыть меню при клике вне его
+            document.addEventListener("click", (e) => {
+                if (!toggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    toggle.classList.remove("active")
+                    mobileMenu.classList.remove("active")
+                }
+            })
+        }
+
+        // Мобильный переключатель темы
+        const mobileThemeToggle = document.getElementById("theme-toggle-mobile")
+        if (mobileThemeToggle) {
+            mobileThemeToggle.addEventListener("click", () => {
+                ThemeManager.toggleTheme()
+            })
+        }
+    },
+
+    bindActiveNavigation() {
+        const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link")
+        const sections = document.querySelectorAll("section[id]")
+
+        // Функция для обновления активной ссылки
+        const updateActiveLink = () => {
+            let current = ""
+            const scrollPosition = window.scrollY + 150 // Увеличиваем отступ для лучшего определения
+
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop
+                const sectionHeight = section.offsetHeight
+                const sectionBottom = sectionTop + sectionHeight
+
+                // Проверяем, находится ли секция в видимой области
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    current = section.getAttribute("id")
+                }
+            })
+
+            // Убираем активный класс со всех ссылок
+            navLinks.forEach((link) => {
+                link.classList.remove("active")
+            })
+
+            // Добавляем активный класс только к соответствующей ссылке
+            if (current) {
+                const activeLink = document.querySelector(`a[href="#${current}"]`)
+                if (activeLink) {
+                    activeLink.classList.add("active")
+                }
+            }
+        }
+
+        // Обновлять при скролле с throttling для производительности
+        let ticking = false
+        const handleScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateActiveLink()
+                    ticking = false
+                })
+                ticking = true
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll)
+
+        // Обновлять при загрузке
+        updateActiveLink()
     },
 }
 

@@ -1,0 +1,23 @@
+# Файлы с инструкциями и документацией
+SEO_ACTIVATION.md
+README.md
+
+# Временные файлы
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи
+*.log
+logs/
+
+# Кэш
+.cache/
+node_modules/

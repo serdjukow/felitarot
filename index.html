@@ -67,15 +67,27 @@
         <link rel="icon" type="image/png" sizes="16x16" href="favicon.svg" />
         <link rel="manifest" href="site.webmanifest" />
 
-        <!-- Google Analytics 4 -->
+        <!-- Google Analytics 4 with Consent Mode -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-P2XVKBD7YZ"></script>
         <script>
             window.dataLayer = window.dataLayer || []
             function gtag() {
                 dataLayer.push(arguments)
             }
+
+            // Default consent mode (denied until user accepts)
+            gtag("consent", "default", {
+                analytics_storage: "denied",
+                ad_storage: "denied",
+                functionality_storage: "denied",
+                personalization_storage: "denied",
+                security_storage: "granted",
+            })
+
             gtag("js", new Date())
-            gtag("config", "G-P2XVKBD7YZ")
+            gtag("config", "G-P2XVKBD7YZ", {
+                anonymize_ip: true,
+            })
         </script>
 
         <!-- Structured Data -->
@@ -439,9 +451,76 @@
             </div>
         </section>
 
+        <!-- Cookie Banner -->
+        <div id="cookie-banner" class="cookie-banner" style="display: none">
+            <div class="cookie-content">
+                <div class="cookie-text">
+                    <h4>🍪 Использование файлов cookie</h4>
+                    <p>Мы используем файлы cookie для улучшения работы сайта и аналитики. Продолжая использовать сайт, вы соглашаетесь с нашей политикой конфиденциальности.</p>
+                </div>
+                <div class="cookie-buttons">
+                    <button id="accept-cookies" class="btn btn-primary">Принять все</button>
+                    <button id="decline-cookies" class="btn">Отклонить</button>
+                    <button id="cookie-settings" class="btn">Настройки</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cookie Settings Modal -->
+        <div id="cookie-settings-modal" class="cookie-modal" style="display: none">
+            <div class="cookie-modal-content">
+                <div class="cookie-modal-header">
+                    <h3>🍪 Настройки cookie</h3>
+                    <button id="close-settings" class="close-btn">&times;</button>
+                </div>
+                <div class="cookie-modal-body">
+                    <div class="cookie-option">
+                        <div class="cookie-option-header">
+                            <h4>Обязательные cookie</h4>
+                            <label class="cookie-toggle">
+                                <input type="checkbox" checked disabled />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <p>Необходимы для базовой работы сайта. Нельзя отключить.</p>
+                    </div>
+
+                    <div class="cookie-option">
+                        <div class="cookie-option-header">
+                            <h4>Аналитические cookie</h4>
+                            <label class="cookie-toggle">
+                                <input type="checkbox" id="analytics-toggle" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <p>Помогают нам понять, как посетители используют сайт (Google Analytics).</p>
+                    </div>
+
+                    <div class="cookie-option">
+                        <div class="cookie-option-header">
+                            <h4>Функциональные cookie</h4>
+                            <label class="cookie-toggle">
+                                <input type="checkbox" id="functionality-toggle" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <p>Запоминают ваши предпочтения (тема, язык, настройки).</p>
+                    </div>
+                </div>
+                <div class="cookie-modal-footer">
+                    <button id="save-settings" class="btn btn-primary">Сохранить настройки</button>
+                    <button id="accept-all-settings" class="btn">Принять все</button>
+                    <button id="reset-cookie-consent" class="btn" style="background: var(--warn); color: #000">Сбросить и показать баннер</button>
+                </div>
+            </div>
+        </div>
+
         <footer>
             <div class="container foot">
                 <div class="small">© <span id="y"></span> Felitarot. Все права защищены.</div>
+                <div class="small" style="margin-top: 0.5rem">
+                    <a href="#" id="cookie-settings-link" style="color: var(--muted); text-decoration: underline">Настройки cookie</a>
+                </div>
             </div>
         </footer>
 

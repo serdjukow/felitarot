@@ -5,12 +5,20 @@
 const AppState = {
     theme: localStorage.getItem("felitarot-theme") || "dark",
     isInitialized: false,
+    cookieConsent: localStorage.getItem("felitarot-cookie-consent") || null,
 }
 
 // Theme Management Module
 const ThemeManager = {
     init() {
-        this.applyTheme(AppState.theme)
+        // Load theme from localStorage only if functionality cookies are allowed
+        if (AppState.cookieConsent === "accepted" || (AppState.cookieConsent === "custom" && this.areFunctionalityCookiesAllowed()) || AppState.cookieConsent === null) {
+            this.applyTheme(AppState.theme)
+        } else {
+            // If functionality cookies are denied, use default theme
+            this.applyTheme("dark")
+        }
+
         this.createToggleButton()
         this.bindEvents()
     },
@@ -43,6 +51,12 @@ const ThemeManager = {
     },
 
     toggleTheme() {
+        // Check if functionality cookies are allowed
+        if (AppState.cookieConsent === "declined" || (AppState.cookieConsent === "custom" && !this.areFunctionalityCookiesAllowed())) {
+            this.showCookieWarning()
+            return
+        }
+
         const newTheme = AppState.theme === "dark" ? "light" : "dark"
         this.applyTheme(newTheme)
         AppState.theme = newTheme
@@ -55,8 +69,65 @@ const ThemeManager = {
         }
     },
 
+    areFunctionalityCookiesAllowed() {
+        try {
+            const settings = JSON.parse(localStorage.getItem("felitarot-cookie-settings") || "{}")
+            return settings.functionality === true
+        } catch {
+            return false
+        }
+    },
+
+    showCookieWarning() {
+        const notification = document.createElement("div")
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--warn);
+            color: #000;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            z-index: 3000;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+            max-width: 300px;
+        `
+        notification.innerHTML = `
+            <strong>🍪 Функциональные cookie отключены</strong><br>
+            Для сохранения темы включите функциональные cookie в настройках.
+            <button onclick="this.parentElement.remove()" style="
+                background: rgba(0,0,0,0.1);
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                margin-top: 0.5rem;
+                cursor: pointer;
+            ">Понятно</button>
+        `
+        document.body.appendChild(notification)
+
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove()
+            }
+        }, 5000)
+    },
+
     applyTheme(theme) {
         document.documentElement.setAttribute("data-theme", theme)
+    },
+
+    updateThemeBasedOnConsent() {
+        // Re-check if functionality cookies are allowed and update theme accordingly
+        if (AppState.cookieConsent === "accepted" || (AppState.cookieConsent === "custom" && this.areFunctionalityCookiesAllowed())) {
+            // Functionality cookies allowed - use saved theme
+            this.applyTheme(AppState.theme)
+        } else {
+            // Functionality cookies denied - reset to default
+            this.applyTheme("dark")
+            AppState.theme = "dark"
+        }
     },
 }
 
@@ -235,6 +306,7 @@ const App = {
         Analytics.init()
         Utils.init()
         Performance.init()
+        CookieManager.init()
 
         // Mark as initialized
         AppState.isInitialized = true
@@ -250,6 +322,262 @@ if (document.readyState === "loading") {
     App.init()
 }
 
+// Cookie Consent Manager
+const CookieManager = {
+    init() {
+        this.showBannerIfNeeded()
+        this.bindEvents()
+    },
+
+    showBannerIfNeeded() {
+        if (!AppState.cookieConsent) {
+            const banner = document.getElementById("cookie-banner")
+            if (banner) {
+                banner.style.display = "block"
+            }
+        }
+    },
+
+    bindEvents() {
+        const acceptBtn = document.getElementById("accept-cookies")
+        const declineBtn = document.getElementById("decline-cookies")
+        const settingsBtn = document.getElementById("cookie-settings")
+        const settingsLink = document.getElementById("cookie-settings-link")
+
+        if (acceptBtn) {
+            acceptBtn.addEventListener("click", () => this.acceptCookies())
+        }
+
+        if (declineBtn) {
+            declineBtn.addEventListener("click", () => this.declineCookies())
+        }
+
+        if (settingsBtn) {
+            settingsBtn.addEventListener("click", () => this.showSettings())
+        }
+
+        if (settingsLink) {
+            settingsLink.addEventListener("click", (e) => {
+                e.preventDefault()
+                this.showSettings()
+            })
+        }
+    },
+
+    acceptCookies() {
+        AppState.cookieConsent = "accepted"
+        localStorage.setItem("felitarot-cookie-consent", "accepted")
+
+        // Update Google Analytics consent
+        if (typeof gtag !== "undefined") {
+            gtag("consent", "update", {
+                analytics_storage: "granted",
+                ad_storage: "granted",
+                functionality_storage: "granted",
+                personalization_storage: "granted",
+            })
+        }
+
+        this.hideBanner()
+    },
+
+    declineCookies() {
+        AppState.cookieConsent = "declined"
+        localStorage.setItem("felitarot-cookie-consent", "declined")
+
+        // Keep Google Analytics consent as denied
+        if (typeof gtag !== "undefined") {
+            gtag("consent", "update", {
+                analytics_storage: "denied",
+                ad_storage: "denied",
+                functionality_storage: "denied",
+                personalization_storage: "denied",
+            })
+        }
+
+        this.hideBanner()
+
+        // Show message about limited functionality
+        this.showNotification("Cookie отклонены. Некоторые функции могут работать ограниченно.")
+
+        // Optional: Show info about what's disabled
+        setTimeout(() => {
+            this.showLimitedFunctionalityInfo()
+        }, 2000)
+    },
+
+    showLimitedFunctionalityInfo() {
+        const info = document.createElement("div")
+        info.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: var(--warn);
+            color: #000;
+            padding: 1rem;
+            border-radius: 8px;
+            z-index: 3000;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            margin: 0 auto;
+        `
+        info.innerHTML = `
+            <strong>ℹ️ Ограниченная функциональность</strong><br>
+            Без cookie некоторые функции могут работать ограниченно:
+            <ul style="margin: 0.5rem 0 0 1rem; padding: 0;">
+                <li>Аналитика отключена</li>
+                <li>Настройки не сохраняются</li>
+                <li>Персонализация недоступна</li>
+            </ul>
+            <button onclick="this.parentElement.remove()" style="
+                background: rgba(0,0,0,0.1);
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                margin-top: 0.5rem;
+                cursor: pointer;
+            ">Понятно</button>
+        `
+        document.body.appendChild(info)
+
+        // Auto-remove after 10 seconds
+        setTimeout(() => {
+            if (info.parentElement) {
+                info.remove()
+            }
+        }, 10000)
+    },
+
+    showSettings() {
+        const modal = document.getElementById("cookie-settings-modal")
+        if (modal) {
+            modal.style.display = "flex"
+            this.bindModalEvents()
+        }
+    },
+
+    bindModalEvents() {
+        const closeBtn = document.getElementById("close-settings")
+        const saveBtn = document.getElementById("save-settings")
+        const acceptAllBtn = document.getElementById("accept-all-settings")
+        const resetBtn = document.getElementById("reset-cookie-consent")
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => this.closeModal())
+        }
+
+        if (saveBtn) {
+            saveBtn.addEventListener("click", () => this.saveCustomSettings())
+        }
+
+        if (acceptAllBtn) {
+            acceptAllBtn.addEventListener("click", () => this.acceptCookies())
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener("click", () => this.resetCookieConsent())
+        }
+
+        // Close modal on backdrop click
+        const modal = document.getElementById("cookie-settings-modal")
+        if (modal) {
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    this.closeModal()
+                }
+            })
+        }
+    },
+
+    closeModal() {
+        const modal = document.getElementById("cookie-settings-modal")
+        if (modal) {
+            modal.style.display = "none"
+        }
+    },
+
+    saveCustomSettings() {
+        const analyticsToggle = document.getElementById("analytics-toggle")
+        const functionalityToggle = document.getElementById("functionality-toggle")
+
+        const analyticsEnabled = analyticsToggle ? analyticsToggle.checked : false
+        const functionalityEnabled = functionalityToggle ? functionalityToggle.checked : false
+
+        // Save settings
+        const settings = {
+            analytics: analyticsEnabled,
+            functionality: functionalityEnabled,
+            timestamp: Date.now(),
+        }
+
+        AppState.cookieConsent = "custom"
+        localStorage.setItem("felitarot-cookie-consent", "custom")
+        localStorage.setItem("felitarot-cookie-settings", JSON.stringify(settings))
+
+        // Update Google Analytics consent based on settings
+        if (typeof gtag !== "undefined") {
+            gtag("consent", "update", {
+                analytics_storage: analyticsEnabled ? "granted" : "denied",
+                ad_storage: analyticsEnabled ? "granted" : "denied",
+                functionality_storage: functionalityEnabled ? "granted" : "denied",
+                personalization_storage: functionalityEnabled ? "granted" : "denied",
+            })
+        }
+
+        this.closeModal()
+        this.hideBanner()
+
+        // Update theme based on new settings
+        if (typeof ThemeManager !== "undefined") {
+            ThemeManager.updateThemeBasedOnConsent()
+        }
+
+        // Show confirmation
+        this.showNotification("Настройки cookie сохранены!")
+    },
+
+    showNotification(message) {
+        // Simple notification - можно улучшить
+        const notification = document.createElement("div")
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--acc);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            z-index: 3000;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+        `
+        notification.textContent = message
+        document.body.appendChild(notification)
+
+        setTimeout(() => {
+            notification.remove()
+        }, 3000)
+    },
+
+    // Функция для сброса cookie настроек (для тестирования)
+    resetCookieConsent() {
+        localStorage.removeItem("felitarot-cookie-consent")
+        localStorage.removeItem("felitarot-cookie-settings")
+        AppState.cookieConsent = null
+        this.showBannerIfNeeded()
+        this.showNotification("Настройки cookie сброшены. Выберите заново.")
+    },
+
+    hideBanner() {
+        const banner = document.getElementById("cookie-banner")
+        if (banner) {
+            banner.style.display = "none"
+        }
+    },
+}
+
 // Export for potential external use
 window.FelitarotApp = {
     AppState,
@@ -257,4 +585,5 @@ window.FelitarotApp = {
     Analytics,
     Utils,
     Performance,
+    CookieManager,
 }

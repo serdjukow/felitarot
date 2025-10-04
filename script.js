@@ -148,6 +148,7 @@ const Utils = {
         this.setupSmoothScrolling()
         this.bindMobileMenu()
         this.bindActiveNavigation()
+        this.animateStats()
     },
 
     updateYear() {
@@ -287,6 +288,73 @@ const Utils = {
 
         // Обновлять при загрузке
         updateActiveLink()
+    },
+
+    animateStats() {
+        const statNumbers = document.querySelectorAll(".stat-number")
+
+        if (statNumbers.length === 0) return
+
+        // Intersection Observer для анимации при появлении
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target
+                        const finalValue = target.textContent
+
+                        // Извлекаем число из текста (например, "10+" -> 10)
+                        const match = finalValue.match(/(\d+)/)
+                        if (match) {
+                            const number = parseInt(match[1])
+                            this.animateNumber(target, 0, number, finalValue)
+                        } else {
+                            // Если нет числа, просто показываем элемент
+                            target.classList.add("animate")
+                        }
+
+                        observer.unobserve(target)
+                    }
+                })
+            },
+            { threshold: 0.5 }
+        )
+
+        statNumbers.forEach((number) => {
+            observer.observe(number)
+        })
+    },
+
+    animateNumber(element, start, end, suffix) {
+        const duration = 2500 // 2.5 секунды для более плавного перелистывания
+        const startTime = performance.now()
+
+        // Сохраняем оригинальный текст для суффикса
+        const suffixText = suffix.replace(/\d+/, "")
+
+        // Добавляем класс анимации сразу для CSS эффекта
+        element.classList.add("animate")
+
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime
+            const progress = Math.min(elapsed / duration, 1)
+
+            // Easing function для более естественного перелистывания
+            const easeOutCubic = 1 - Math.pow(1 - progress, 3)
+            const currentValue = Math.floor(start + (end - start) * easeOutCubic)
+
+            // Обновляем текст с суффиксом
+            element.textContent = currentValue + suffixText
+
+            if (progress < 1) {
+                requestAnimationFrame(animate)
+            } else {
+                // Устанавливаем финальное значение
+                element.textContent = end + suffixText
+            }
+        }
+
+        requestAnimationFrame(animate)
     },
 }
 

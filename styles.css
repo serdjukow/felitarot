@@ -416,6 +416,17 @@ a {
     font: 700 32px/1 Playfair Display, serif;
     color: var(--acc);
     margin-bottom: 4px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.8s ease;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+}
+
+.stat-number.animate {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 .stat-label {

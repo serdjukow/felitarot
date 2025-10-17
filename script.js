@@ -37,7 +37,7 @@ const ThemeManager = {
     `
         toggleBtn.setAttribute("aria-label", AppState.theme === "dark" ? "Переключить на светлую тему" : "Переключить на темную тему")
 
-        // Добавляем кнопку в навигационное меню
+        // Add button to navigation menu
         const navMenu = navInner.querySelector(".nav-menu")
         if (navMenu) {
             navMenu.appendChild(toggleBtn)
@@ -132,10 +132,10 @@ const ThemeManager = {
     },
 }
 
-// Analytics Module (упрощенный - без счетчика заявок)
+// Analytics Module (simplified - without lead counter)
 const Analytics = {
     init() {
-        // Пока аналитика не нужна, модуль оставлен для будущего расширения
+        // Analytics not needed yet, module kept for future expansion
         console.log("Analytics module initialized (simplified)")
     },
 }
@@ -149,6 +149,7 @@ const Utils = {
         this.bindMobileMenu()
         this.bindActiveNavigation()
         this.animateStats()
+        this.setupFAQAccordion()
     },
 
     updateYear() {
@@ -211,7 +212,7 @@ const Utils = {
                 mobileMenu.classList.toggle("active")
             })
 
-            // Закрыть меню при клике на ссылку
+            // Close menu when clicking on link
             const mobileLinks = document.querySelectorAll(".mobile-nav-link")
             mobileLinks.forEach((link) => {
                 link.addEventListener("click", () => {
@@ -220,7 +221,7 @@ const Utils = {
                 })
             })
 
-            // Закрыть меню при клике вне его
+            // Close menu when clicking outside
             document.addEventListener("click", (e) => {
                 if (!toggle.contains(e.target) && !mobileMenu.contains(e.target)) {
                     toggle.classList.remove("active")
@@ -229,7 +230,7 @@ const Utils = {
             })
         }
 
-        // Мобильный переключатель темы
+        // Mobile theme toggle
         const mobileThemeToggle = document.getElementById("theme-toggle-mobile")
         if (mobileThemeToggle) {
             mobileThemeToggle.addEventListener("click", () => {
@@ -242,28 +243,28 @@ const Utils = {
         const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link")
         const sections = document.querySelectorAll("section[id]")
 
-        // Функция для обновления активной ссылки
+        // Function to update active link
         const updateActiveLink = () => {
             let current = ""
-            const scrollPosition = window.scrollY + 150 // Увеличиваем отступ для лучшего определения
+            const scrollPosition = window.scrollY + 150 // Increase offset for better detection
 
             sections.forEach((section) => {
                 const sectionTop = section.offsetTop
                 const sectionHeight = section.offsetHeight
                 const sectionBottom = sectionTop + sectionHeight
 
-                // Проверяем, находится ли секция в видимой области
+                // Check if section is in visible area
                 if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
                     current = section.getAttribute("id")
                 }
             })
 
-            // Убираем активный класс со всех ссылок
+            // Remove active class from all links
             navLinks.forEach((link) => {
                 link.classList.remove("active")
             })
 
-            // Добавляем активный класс только к соответствующей ссылке
+            // Add active class only to corresponding link
             if (current) {
                 const activeLink = document.querySelector(`a[href="#${current}"]`)
                 if (activeLink) {
@@ -272,7 +273,7 @@ const Utils = {
             }
         }
 
-        // Обновлять при скролле с throttling для производительности
+        // Update on scroll with throttling for performance
         let ticking = false
         const handleScroll = () => {
             if (!ticking) {
@@ -286,7 +287,7 @@ const Utils = {
 
         window.addEventListener("scroll", handleScroll)
 
-        // Обновлять при загрузке
+        // Update on load
         updateActiveLink()
     },
 
@@ -295,7 +296,7 @@ const Utils = {
 
         if (statNumbers.length === 0) return
 
-        // Intersection Observer для анимации при появлении
+        // Intersection Observer for animation on appearance
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -303,13 +304,13 @@ const Utils = {
                         const target = entry.target
                         const finalValue = target.textContent
 
-                        // Извлекаем число из текста (например, "10+" -> 10)
+                        // Extract number from text (e.g., "10+" -> 10)
                         const match = finalValue.match(/(\d+)/)
                         if (match) {
                             const number = parseInt(match[1])
                             this.animateNumber(target, 0, number, finalValue)
                         } else {
-                            // Если нет числа, просто показываем элемент
+                            // If no number, just show element
                             target.classList.add("animate")
                         }
 
@@ -326,35 +327,77 @@ const Utils = {
     },
 
     animateNumber(element, start, end, suffix) {
-        const duration = 2500 // 2.5 секунды для более плавного перелистывания
+        const duration = 2500 // 2.5 seconds for smoother animation
         const startTime = performance.now()
 
-        // Сохраняем оригинальный текст для суффикса
+        // Save original text for suffix
         const suffixText = suffix.replace(/\d+/, "")
 
-        // Добавляем класс анимации сразу для CSS эффекта
+        // Add animation class immediately for CSS effect
         element.classList.add("animate")
 
         const animate = (currentTime) => {
             const elapsed = currentTime - startTime
             const progress = Math.min(elapsed / duration, 1)
 
-            // Easing function для более естественного перелистывания
+            // Easing function for more natural animation
             const easeOutCubic = 1 - Math.pow(1 - progress, 3)
             const currentValue = Math.floor(start + (end - start) * easeOutCubic)
 
-            // Обновляем текст с суффиксом
+            // Update text with suffix
             element.textContent = currentValue + suffixText
 
             if (progress < 1) {
                 requestAnimationFrame(animate)
             } else {
-                // Устанавливаем финальное значение
+                // Set final value
                 element.textContent = end + suffixText
             }
         }
 
         requestAnimationFrame(animate)
+    },
+
+    setupFAQAccordion() {
+        const faqItems = document.querySelectorAll(".faq-item")
+
+        faqItems.forEach((item) => {
+            const question = item.querySelector(".faq-question")
+            const answer = item.querySelector(".faq-answer")
+
+            if (question && answer) {
+                question.addEventListener("click", () => {
+                    const isActive = item.classList.contains("active")
+
+                    // Close all other elements
+                    faqItems.forEach((otherItem) => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove("active")
+                            const otherAnswer = otherItem.querySelector(".faq-answer")
+                            const otherQuestion = otherItem.querySelector(".faq-question")
+                            if (otherAnswer && otherQuestion) {
+                                otherAnswer.style.maxHeight = "0"
+                                otherAnswer.style.padding = "0"
+                                otherQuestion.setAttribute("aria-expanded", "false")
+                            }
+                        }
+                    })
+
+                    // Toggle current element
+                    if (isActive) {
+                        item.classList.remove("active")
+                        answer.style.maxHeight = "0"
+                        answer.style.padding = "0"
+                        question.setAttribute("aria-expanded", "false")
+                    } else {
+                        item.classList.add("active")
+                        answer.style.maxHeight = "none"
+                        answer.style.padding = "16px 24px 24px 24px"
+                        question.setAttribute("aria-expanded", "true")
+                    }
+                })
+            }
+        })
     },
 }
 
@@ -391,14 +434,14 @@ const Performance = {
     },
 
     optimizeForMobile() {
-        // Улучшения для мобильных устройств
+        // Mobile device improvements
         this.detectMobile()
         this.optimizeTouchEvents()
         this.preventZoomOnInput()
     },
 
     detectMobile() {
-        // Определяем мобильное устройство
+        // Detect mobile device
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
         const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0
 
@@ -408,7 +451,7 @@ const Performance = {
     },
 
     optimizeTouchEvents() {
-        // Оптимизируем touch события
+        // Optimize touch events
         let touchStartY = 0
         let touchEndY = 0
 
@@ -431,18 +474,18 @@ const Performance = {
     },
 
     handleSwipe(startY, endY) {
-        // Обработка свайпов (можно расширить)
+        // Handle swipes (can be extended)
         const diff = startY - endY
         const threshold = 50
 
         if (Math.abs(diff) > threshold) {
-            // Можно добавить навигацию свайпами
+            // Can add swipe navigation
             console.log("Swipe detected:", diff > 0 ? "up" : "down")
         }
     },
 
     preventZoomOnInput() {
-        // Предотвращаем zoom при фокусе на input (iOS)
+        // Prevent zoom on input focus (iOS)
         const inputs = document.querySelectorAll("input, textarea, select")
         inputs.forEach((input) => {
             input.addEventListener("focus", () => {
@@ -703,7 +746,7 @@ const CookieManager = {
     },
 
     showNotification(message) {
-        // Simple notification - можно улучшить
+        // Simple notification - can be improved
         const notification = document.createElement("div")
         notification.style.cssText = `
             position: fixed;
@@ -725,7 +768,7 @@ const CookieManager = {
         }, 3000)
     },
 
-    // Функция для сброса cookie настроек (для тестирования)
+    // Function to reset cookie settings (for testing)
     resetCookieConsent() {
         localStorage.removeItem("felitarot-cookie-consent")
         localStorage.removeItem("felitarot-cookie-settings")

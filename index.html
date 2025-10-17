@@ -206,7 +206,20 @@
                     <a href="#services" class="nav-link">Услуги</a>
                     <a href="#faq" class="nav-link">FAQ</a>
                     <a href="#about" class="nav-link">О проекте</a>
-                    <a href="https://t.me/felitarot" class="nav-cta" target="_blank" rel="noopener">Записаться</a>
+                    <div class="nav-social-buttons">
+                        <a href="https://t.me/felitarot" class="nav-social-link nav-telegram" target="_blank" rel="noopener" aria-label="Telegram">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/felitarot_official" class="nav-social-link nav-instagram" target="_blank" rel="noopener" aria-label="Instagram">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="currentColor" stroke-width="2"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -223,6 +236,25 @@
                     <a href="#services" class="mobile-nav-link">Услуги</a>
                     <a href="#faq" class="mobile-nav-link">FAQ</a>
                     <a href="#about" class="mobile-nav-link">О проекте</a>
+                    
+                    <!-- Mobile Social Links -->
+                    <div class="mobile-social-section">
+                        <div class="mobile-social-links">
+                            <a href="https://t.me/felitarot" class="mobile-social-link mobile-telegram" target="_blank" rel="noopener" aria-label="Telegram">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" fill="currentColor"/>
+                                </svg>
+                            </a>
+                            <a href="https://instagram.com/felitarot_official" class="mobile-social-link mobile-instagram" target="_blank" rel="noopener" aria-label="Instagram">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
                     <div class="mobile-menu-controls">
                         <button id="theme-toggle-mobile" class="theme-toggle-mobile" aria-label="Переключить тему">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -243,8 +275,8 @@
         <header class="container hero">
             <div class="hero-content">
                 <div class="hero-badge">
-                    <span class="badge-icon">🔮</span>
-                    <span>10+ лет опыта • 500+ консультаций</span>
+                    <span class="badge-icon">✨</span>
+                    <span>Онлайн консультации</span>
                 </div>
                 
                 <h1 class="hero-title">
@@ -277,8 +309,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
-                    <a class="btn btn-outline" href="#services">
-                        <span>Посмотреть услуги</span>
+                    <a class="btn btn-outline" href="https://instagram.com/felitarot_official" target="_blank" rel="noopener">
+                        <span>Instagram</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="currentColor" stroke-width="2"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
                     </a>
                 </div>
                 
@@ -476,23 +513,54 @@
         <section class="section" id="faq">
             <div class="container">
                 <h2>Часто задаваемые вопросы</h2>
-                <div class="cards">
-                    <article class="card">
-                        <h3>Как проходит консультация?</h3>
-                        <p class="muted">Консультации проходят онлайн через Telegram. Вы задаете вопрос, я делаю расклад и отправляю подробное описание с рекомендациями. Для глубоких консультаций возможна видеосвязь.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Сколько времени занимает расклад?</h3>
-                        <p class="muted">Карта дня - 5-10 минут, вопрос-ответ - 15-20 минут, расклад на срок - 30-45 минут, глубокая консультация - 60-90 минут. Результаты приходят в течение 24 часов.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Можно ли задать любой вопрос?</h3>
-                        <p class="muted">Да, но лучше формулировать вопросы конкретно. Таро лучше отвечает на вопросы о развитии ситуации, выборе направления, отношениях, карьере, здоровье.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Нужна ли подготовка к консультации?</h3>
-                        <p class="muted">Специальной подготовки не требуется. Просто сформулируйте свой вопрос четко и будьте открыты к получению информации. Важно задавать вопрос от сердца.</p>
-                    </article>
+                <div class="faq-accordion">
+                    <div class="faq-item active">
+                        <button class="faq-question" aria-expanded="true">
+                            <span>Как проходит консультация?</span>
+                            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer" style="max-height: none; padding: 16px 24px 24px 24px;">
+                            <p>Консультации проходят онлайн через Telegram. Вы задаете вопрос, я делаю расклад и отправляю подробное описание с рекомендациями. Для глубоких консультаций возможна видеосвязь.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Сколько времени занимает расклад?</span>
+                            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Карта дня - 5-10 минут, вопрос-ответ - 15-20 минут, расклад на срок - 30-45 минут, глубокая консультация - 60-90 минут. Результаты приходят в течение 24 часов.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Можно ли задать любой вопрос?</span>
+                            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Да, но лучше формулировать вопросы конкретно. Таро лучше отвечает на вопросы о развитии ситуации, выборе направления, отношениях, карьере, здоровье.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Нужна ли подготовка к консультации?</span>
+                            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Специальной подготовки не требуется. Просто сформулируйте свой вопрос четко и будьте открыты к получению информации. Важно задавать вопрос от сердца.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -542,17 +610,10 @@
                         </div>
                     </article>
 
-                    <article class="card">
-                        <h3>Связь</h3>
-                        <p class="muted" id="contact">
-                            Telegram: <a href="https://t.me/felitarot" target="_blank" rel="noopener">@felitarot</a><br />
-                            Email: <a href="mailto:felitarot.official@gmail.com">felitarot.official@gmail.com</a>
-                        </p>
-                        <p class="muted">Готова ответить на ваши вопросы и помочь найти путь к ясности через мудрость Таро.</p>
-                    </article>
                 </div>
             </div>
         </section>
+
 
         <!-- Cookie Banner -->
         <div id="cookie-banner" class="cookie-banner" style="display: none">
@@ -619,10 +680,56 @@
         </div>
 
         <footer>
-            <div class="container foot">
-                <div class="small">© <span id="y"></span> Felitarot. Все права защищены.</div>
-                <div class="small" style="margin-top: 0.5rem">
-                    <a href="#" id="cookie-settings-link" style="color: var(--muted); text-decoration: underline">Настройки cookie</a>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <span class="logo" aria-hidden="true">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="1.6" />
+                                    <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor" />
+                                </svg>
+                            </span>
+                            <h3>FeliTarot</h3>
+                        </div>
+                        <p class="footer-description">Профессиональные консультации Таро онлайн. Ясность в моменте и доверие к жизни.</p>
+                    </div>
+                    
+                    <div class="footer-contact">
+                        <h4>Связь</h4>
+                        <div class="contact-links">
+                            <a href="https://t.me/felitarot" target="_blank" rel="noopener" class="contact-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" fill="currentColor"/>
+                                </svg>
+                                <span>@felitarot</span>
+                            </a>
+                            <a href="https://instagram.com/felitarot_official" target="_blank" rel="noopener" class="contact-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>@felitarot_official</span>
+                            </a>
+                            <a href="mailto:felitarot.official@gmail.com" class="contact-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                                    <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>felitarot.official@gmail.com</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-copyright">
+                        <span>© <span id="y"></span> FeliTarot. Все права защищены.</span>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#" id="cookie-settings-link">Настройки cookie</a>
+                    </div>
                 </div>
             </div>
         </footer>

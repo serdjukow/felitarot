@@ -1,5 +1,22 @@
 User-agent: *
-Disallow: /
+Allow: /
 
-# Sitemap location (готов к активации)
-# Sitemap: https://www.felitarot.com/sitemap.xml
+# Sitemap location
+Sitemap: https://felitarot.com/sitemap.xml
+
+# Crawl-delay для вежливого краулинга
+Crawl-delay: 1
+
+# Разрешить индексацию всех страниц
+Allow: /articles/
+Allow: /images/
+Allow: /blog.html
+Allow: /index.html
+
+# Блокировать служебные файлы
+Disallow: /script.js
+Disallow: /styles.css
+Disallow: /favicon.ico
+Disallow: /favicon.svg
+Disallow: /site.webmanifest
+Disallow: /browserconfig.xml

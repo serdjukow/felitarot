@@ -2600,14 +2600,33 @@ body::after {
     color: var(--muted);
 }
 
-.article-breadcrumb a {
-    color: var(--acc);
-    text-decoration: none;
-    transition: color 0.3s ease;
+.article-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.article-breadcrumb a:hover {
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--acc);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(140, 108, 247, 0.1);
+    border: 1px solid rgba(140, 108, 247, 0.2);
+}
+
+.back-btn:hover {
     color: var(--acc-2);
+    background: rgba(140, 108, 247, 0.15);
+    transform: translateX(-2px);
+}
+
+.article-breadcrumb span {
+    color: var(--muted);
 }
 
 .article-title {
@@ -3023,4 +3042,288 @@ body::after {
         flex-direction: column;
         align-items: center;
     }
+}
+
+/* CONTACT FORM STYLES */
+.contact-section {
+    background: linear-gradient(135deg, rgba(140, 108, 247, 0.05), rgba(176, 124, 255, 0.05));
+    border-top: 1px solid rgba(140, 108, 247, 0.1);
+    border-bottom: 1px solid rgba(140, 108, 247, 0.1);
+}
+
+.contact-form-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-form-container {
+    background: var(--card);
+    border: 1px solid rgba(140, 108, 247, 0.1);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-form-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--acc), var(--acc-2));
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    color: var(--text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--acc);
+    background: rgba(140, 108, 247, 0.05);
+    box-shadow: 0 0 0 3px rgba(140, 108, 247, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+.checkbox-group {
+    margin-top: 0.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--muted);
+    white-space: normal;
+    word-break: break-word;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: transparent;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: var(--acc);
+    border-color: var(--acc);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.privacy-text {
+    flex: 1;
+    display: block;
+}
+
+.privacy-link {
+    color: var(--acc);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline;
+    word-break: break-word;
+}
+
+.privacy-link:hover {
+    color: var(--acc-2);
+    text-decoration: underline;
+}
+
+.form-submit-btn {
+    margin-top: 1rem;
+    align-self: flex-start;
+    min-width: 200px;
+}
+
+.form-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.form-submit-btn:disabled:hover {
+    transform: none;
+    filter: none;
+}
+
+.form-message {
+    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.form-message.success {
+    background: rgba(56, 211, 159, 0.1);
+    border: 1px solid rgba(56, 211, 159, 0.3);
+    color: var(--ok);
+}
+
+.form-message.error {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff6b6b;
+}
+
+/* Contact Form Responsive */
+@media (max-width: 768px) {
+    .contact-form-wrapper {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    .contact-form-container {
+        padding: 2rem;
+    }
+
+    .form-submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .checkbox-label {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        gap: 0.5rem;
+    }
+
+    .checkmark {
+        width: 18px;
+        height: 18px;
+        margin-top: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form-wrapper {
+        padding: 0 0.5rem;
+    }
+
+    .contact-form-container {
+        padding: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
+
+    .checkbox-label {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        gap: 0.4rem;
+    }
+
+    .checkmark {
+        width: 16px;
+        height: 16px;
+        margin-top: 4px;
+    }
+
+    .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+        left: 5px;
+        top: 1px;
+        width: 5px;
+        height: 8px;
+    }
+}
+
+@media (max-width: 375px) {
+    .contact-form-container {
+        padding: 1.25rem;
+    }
+
+    .checkbox-label {
+        font-size: 0.75rem;
+        line-height: 1.4;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Contact Form Animations */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
 }

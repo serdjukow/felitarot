@@ -501,6 +501,114 @@ const Performance = {
     },
 }
 
+// Contact Form Module
+const ContactForm = {
+    init() {
+        this.bindFormEvents()
+    },
+
+    bindFormEvents() {
+        const form = document.getElementById("contact-form")
+        if (!form) return
+
+        form.addEventListener("submit", this.handleSubmit.bind(this))
+    },
+
+    async handleSubmit(e) {
+        e.preventDefault()
+
+        const form = e.target
+        const submitBtn = form.querySelector(".form-submit-btn")
+        const messageDiv = document.getElementById("form-message")
+
+        // Disable submit button
+        submitBtn.disabled = true
+        submitBtn.innerHTML = `
+            <span>Отправка...</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
+                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        `
+
+        try {
+            // Get form data
+            const formData = new FormData(form)
+            const data = {
+                name: formData.get("name"),
+                email: formData.get("email"),
+                service: formData.get("service"),
+                message: formData.get("message"),
+                privacy: formData.get("privacy"),
+            }
+
+            // Validate required fields
+            if (!data.name || !data.email || !data.message || !data.privacy) {
+                throw new Error("Пожалуйста, заполните все обязательные поля")
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            if (!emailRegex.test(data.email)) {
+                throw new Error("Пожалуйста, введите корректный email адрес")
+            }
+
+            // Send email using EmailJS
+            const serviceId = "service_742dqu8"
+            const templateId = "template_2hfrj0l"
+
+            const emailParams = {
+                from_name: data.name,
+                from_email: data.email,
+                service_type: data.service || "Не указано",
+                message: data.message,
+                to_email: "felitarot.official@gmail.com",
+            }
+
+            // Send email
+            const result = await emailjs.send(serviceId, templateId, emailParams)
+            console.log("Email sent successfully:", result)
+
+            // Show success message
+            this.showMessage(messageDiv, "success", "Спасибо! Ваше сообщение отправлено. Я свяжусь с вами в ближайшее время.")
+
+            // Reset form
+            form.reset()
+        } catch (error) {
+            console.error("Contact form error:", error)
+            let errorMessage = "Произошла ошибка при отправке сообщения. Попробуйте еще раз."
+
+            if (error.status === 400) {
+                errorMessage = "Ошибка в данных формы. Проверьте правильность заполнения."
+            } else if (error.status === 500) {
+                errorMessage = "Ошибка сервера. Попробуйте позже или свяжитесь через Telegram."
+            }
+
+            this.showMessage(messageDiv, "error", errorMessage)
+        } finally {
+            // Re-enable submit button
+            submitBtn.disabled = false
+            submitBtn.innerHTML = `
+                <span>Отправить сообщение</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            `
+        }
+    },
+
+    showMessage(element, type, message) {
+        element.className = `form-message ${type}`
+        element.textContent = message
+        element.style.display = "block"
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            element.style.display = "none"
+        }, 5000)
+    },
+}
+
 // Main Application Initialization
 const App = {
     init() {
@@ -514,6 +622,7 @@ const App = {
         Utils.init()
         Performance.init()
         CookieManager.init()
+        ContactForm.init()
 
         // Mark as initialized
         AppState.isInitialized = true

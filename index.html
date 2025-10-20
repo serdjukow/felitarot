@@ -327,7 +327,8 @@
                     <a href="#services" class="nav-link">Услуги</a>                               
                     <a href="#faq" class="nav-link">FAQ</a>
                     <a href="#about" class="nav-link">О проекте</a> 
-                     <a href="#blog" class="nav-link">Блог</a>
+                    <a href="#blog" class="nav-link">Блог</a>
+                    <a href="#contact" class="nav-link">Контакты</a>
                             
                     <div class="nav-social-buttons">
                         <a href="https://t.me/felitarot" class="nav-social-link nav-telegram" target="_blank" rel="noopener" aria-label="Telegram">
@@ -357,9 +358,10 @@
             <div class="mobile-menu">
                 <div class="mobile-menu-content">
                     <a href="#services" class="mobile-nav-link">Услуги</a>
-                     <a href="#faq" class="mobile-nav-link">FAQ</a>
+                    <a href="#faq" class="mobile-nav-link">FAQ</a>
                     <a href="#about" class="mobile-nav-link">О проекте</a>
                     <a href="#blog" class="mobile-nav-link">Блог</a>
+                    <a href="#contact" class="mobile-nav-link">Контакты</a>
                    
                     
                     <!-- Mobile Social Links -->
@@ -428,10 +430,10 @@
                 </div>
                 
                 <div class="hero-actions">
-                    <a class="btn btn-primary btn-large" href="https://t.me/felitarot" target="_blank" rel="noopener">
+                    <a class="btn btn-primary btn-large" href="#contact">
                         <span>Записаться на консультацию</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
                     <a class="btn btn-outline" href="https://instagram.com/felitarot_official" target="_blank" rel="noopener">
@@ -813,6 +815,69 @@
             </div>
         </section>
 
+        <!-- CONTACT FORM -->
+        <section class="section contact-section" id="contact">
+            <div class="container">
+                <h2>Связаться со мной</h2>
+                <p class="section-subtitle">Есть вопросы? Хотите записаться на консультацию? Напишите мне!</p>
+                
+                <div class="contact-form-wrapper">
+                    <div class="contact-form-container">
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Имя *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="service">Тип консультации</label>
+                                <select id="service" name="service">
+                                    <option value="">Выберите услугу</option>
+                                    <option value="karta-dnya">Карта дня (от 15€)</option>
+                                    <option value="vopros-otvet">Вопрос-ответ (от 20€)</option>
+                                    <option value="rassklad">Расклад на срок (30€)</option>
+                                    <option value="glubokaya">Глубокая консультация (от 50€)</option>
+                                    <option value="obuchenie">Обучение Таро (от 40€/час)</option>
+                                    <option value="runi">Расклад на рунах (от 25€)</option>
+                                    <option value="drugoe">Другое</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Сообщение *</label>
+                                <textarea id="message" name="message" rows="5" placeholder="Опишите ваш вопрос или ситуацию..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="privacy" name="privacy" required>
+                                    <span class="checkmark"></span>
+                                    <span class="privacy-text">
+                                        Я согласен с <a href="privacy-policy.html" class="privacy-link">политикой конфиденциальности</a> 
+                                        и обработкой персональных данных *
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-large form-submit-btn">
+                                <span>Отправить сообщение</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </form>
+                        
+                        <div id="form-message" class="form-message" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Cookie Banner -->
         <div id="cookie-banner" class="cookie-banner" style="display: none">
             <div class="cookie-content">
@@ -894,7 +959,6 @@
                     </div>
                     
                     <div class="footer-contact">
-                        <h4>Связь</h4>
                         <div class="contact-links">
                             <a href="https://t.me/felitarot" target="_blank" rel="noopener" class="contact-link">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -932,6 +996,16 @@
             </div>
         </footer>
 
+        <!-- EmailJS -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <script type="text/javascript">
+            (function () {
+                emailjs.init({
+                    publicKey: "IhdfYYu-fz1_LzdCX",
+                });
+            })();
+        </script>
+        
         <script src="script.js"></script>
     </body>
 </html>

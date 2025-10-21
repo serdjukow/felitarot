@@ -506,105 +506,70 @@ const ContactForm = {
     init() {
         this.bindFormEvents()
     },
-
     bindFormEvents() {
         const form = document.getElementById("contact-form")
         if (!form) return
-
         form.addEventListener("submit", this.handleSubmit.bind(this))
     },
-
     async handleSubmit(e) {
         e.preventDefault()
-
         const form = e.target
         const submitBtn = form.querySelector(".form-submit-btn")
         const messageDiv = document.getElementById("form-message")
+        if (!submitBtn || !messageDiv) return
 
-        // Disable submit button
         submitBtn.disabled = true
-        submitBtn.innerHTML = `
-            <span>Отправка...</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        `
+        submitBtn.innerHTML = `<span>Отправка...</span><svg width="20" height="20" viewBox="0 0 24 24" class="animate-spin"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`
 
         try {
-            // Get form data
-            const formData = new FormData(form)
+            const fd = new FormData(form)
             const data = {
-                name: formData.get("name"),
-                email: formData.get("email"),
-                service: formData.get("service"),
-                message: formData.get("message"),
-                privacy: formData.get("privacy"),
+                name: fd.get("name")?.toString().trim(),
+                email: fd.get("email")?.toString().trim(),
+                service: fd.get("service")?.toString().trim(),
+                message: fd.get("message")?.toString().trim(),
+                privacy: fd.get("privacy") === "on",
             }
 
-            // Validate required fields
             if (!data.name || !data.email || !data.message || !data.privacy) {
                 throw new Error("Пожалуйста, заполните все обязательные поля")
             }
 
-            // Validate email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             if (!emailRegex.test(data.email)) {
                 throw new Error("Пожалуйста, введите корректный email адрес")
             }
 
-            // Send email using EmailJS
-            const serviceId = "service_742dqu8"
-            const templateId = "template_2hfrj0l"
-
             const emailParams = {
                 from_name: data.name,
-                from_email: data.email,
+                reply_to: data.email,
                 service_type: data.service || "Не указано",
                 message: data.message,
                 to_email: "felitarot.official@gmail.com",
             }
 
-            // Send email
-            const result = await emailjs.send(serviceId, templateId, emailParams)
-            console.log("Email sent successfully:", result)
+            await emailjs.send("service_742dqu8", "template_2hfrj0l", emailParams)
 
-            // Show success message
             this.showMessage(messageDiv, "success", "Спасибо! Ваше сообщение отправлено. Я свяжусь с вами в ближайшее время.")
-
-            // Reset form
             form.reset()
         } catch (error) {
             console.error("Contact form error:", error)
-            let errorMessage = "Произошла ошибка при отправке сообщения. Попробуйте еще раз."
-
-            if (error.status === 400) {
-                errorMessage = "Ошибка в данных формы. Проверьте правильность заполнения."
-            } else if (error.status === 500) {
-                errorMessage = "Ошибка сервера. Попробуйте позже или свяжитесь через Telegram."
-            }
-
-            this.showMessage(messageDiv, "error", errorMessage)
+            let msg = "Произошла ошибка при отправке сообщения. Попробуйте еще раз."
+            if (error?.status === 400) msg = "Ошибка в данных формы. Проверьте правильность заполнения."
+            else if (error?.status === 500) msg = "Ошибка сервера. Попробуйте позже или свяжитесь через Telegram."
+            else if (String(error?.message || "").includes("Public Key")) msg = "Неверный Public Key в EmailJS. Проверьте ключ в инициализации."
+            this.showMessage(messageDiv, "error", msg)
         } finally {
-            // Re-enable submit button
             submitBtn.disabled = false
-            submitBtn.innerHTML = `
-                <span>Отправить сообщение</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            `
+            submitBtn.innerHTML = `<span>Отправить сообщение</span><svg width="20" height="20" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
         }
     },
-
-    showMessage(element, type, message) {
-        element.className = `form-message ${type}`
-        element.textContent = message
-        element.style.display = "block"
-
-        // Auto-hide after 5 seconds
+    showMessage(el, type, message) {
+        el.className = `form-message ${type}`
+        el.textContent = message
+        el.style.display = "block"
         setTimeout(() => {
-            element.style.display = "none"
+            el.style.display = "none"
         }, 5000)
     },
 }

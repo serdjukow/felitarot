@@ -132,14 +132,6 @@ const ThemeManager = {
     },
 }
 
-// Analytics Module (simplified - without lead counter)
-const Analytics = {
-    init() {
-        // Analytics not needed yet, module kept for future expansion
-        console.log("Analytics module initialized (simplified)")
-    },
-}
-
 // Utility Functions Module
 const Utils = {
     init() {
@@ -202,12 +194,9 @@ const Utils = {
         const toggle = document.querySelector(".mobile-menu-toggle")
         const mobileMenu = document.querySelector(".mobile-menu")
 
-        console.log("Mobile menu elements:", { toggle, mobileMenu })
-
         if (toggle && mobileMenu) {
             toggle.addEventListener("click", (e) => {
                 e.preventDefault()
-                console.log("Mobile menu toggle clicked")
                 toggle.classList.toggle("active")
                 mobileMenu.classList.toggle("active")
             })
@@ -560,20 +549,18 @@ const ContactForm = {
 
             const emailParams = {
                 from_name: data.name,
-                reply_to: data.email, // <-- оставь это, так чаще настроен шаблон
-                from_email: data.email, // можно и это, не мешает
+                reply_to: data.email,
+                from_email: data.email,
                 service_type: data.service || "Не указано",
                 message: data.message,
                 to_email: "felitarot.official@gmail.com",
             }
 
             const result = await emailjs.send(serviceId, templateId, emailParams)
-            console.log("Email sent successfully:", result)
 
             this.showMessage(messageDiv, "success", "Спасибо! Ваше сообщение отправлено. Я свяжусь с вами в ближайшее время.")
             form.reset()
         } catch (error) {
-            console.error("Contact form error:", error)
             let errorMessage = "Произошла ошибка при отправке сообщения. Попробуйте еще раз."
             if (error?.status === 400) errorMessage = "Ошибка в данных формы. Проверьте правильность заполнения."
             else if (error?.status === 500) errorMessage = "Ошибка сервера. Попробуйте позже или свяжитесь через Telegram."
@@ -606,8 +593,6 @@ const App = {
     init() {
         if (AppState.isInitialized) return
 
-        console.log("Initializing Felitarot Landing Page...")
-
         // Initialize all modules
         ThemeManager.init()
         Analytics.init()
@@ -618,8 +603,6 @@ const App = {
 
         // Mark as initialized
         AppState.isInitialized = true
-
-        console.log("Felitarot Landing Page initialized successfully")
     },
 }
 

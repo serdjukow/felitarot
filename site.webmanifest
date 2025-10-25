@@ -4,9 +4,9 @@
     "description": "Профессиональные консультации Таро онлайн от FeliTarot. Расклады карт, обучение Таро, руны. 10+ лет опыта. Запись в Telegram. Ясность в моменте и доверие к жизни.",
     "icons": [
         {
-            "src": "favicon.svg",
+            "src": "favicon.png",
             "sizes": "any",
-            "type": "image/svg+xml"
+            "type": "image/png"
         },
         {
             "src": "images/logo.png",

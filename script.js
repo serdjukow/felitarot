@@ -595,7 +595,6 @@ const App = {
 
         // Initialize all modules
         ThemeManager.init()
-        Analytics.init()
         Utils.init()
         Performance.init()
         CookieManager.init()
@@ -866,7 +865,6 @@ const CookieManager = {
 window.FelitarotApp = {
     AppState,
     ThemeManager,
-    Analytics,
     Utils,
     Performance,
     CookieManager,
